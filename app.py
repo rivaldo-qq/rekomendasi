@@ -161,7 +161,7 @@ def favorit():
     customer_id = 9999
 
     # Cari harga_jual dari df produk (lu perlu punya df_produk terpisah)
-    filtered = df[df['nama_produk'] == menu_favorit]
+    filtered = df[df['nama_produk'].str.lower() == menu_favorit.lower()]
     harga_jual = harga_row['harga_jual']
     jenis_produk = harga_row['jenis_produk']
     kategori_produk = harga_row.get('kategori_produk', kategori)
