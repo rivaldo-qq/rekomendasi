@@ -172,6 +172,9 @@ def favorit():
     if filtered.empty:
         return f"Menu {menu_favorit} tidak ditemukan di database", 400
     harga_row = filtered.iloc[0]
+    harga_jual = harga_row['harga_jual'] if 'harga_jual' in filtered.columns else 0
+    jenis_produk = harga_row['jenis_produk'] if 'jenis_produk' in filtered.columns else 'unknown'
+    kategori_produk = harga_row['kategori_produk'] if 'kategori_produk' in filtered.columns else kategori
 
     # --- Tambah data baru ke DataFrame ---
     new_row = pd.DataFrame([[
