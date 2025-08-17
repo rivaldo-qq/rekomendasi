@@ -161,7 +161,7 @@ def favorit():
     customer_id = 9999
 
     # Cari harga_jual dari df produk (lu perlu punya df_produk terpisah)
-    harga_row = df_produk[df_produk['nama_produk'] == menu_favorit].iloc[0]
+    harga_row = df[df['nama_produk'] == menu_favorit].iloc[0]
     harga_jual = harga_row['harga_jual']
     jenis_produk = harga_row['jenis_produk']
     kategori_produk = harga_row.get('kategori_produk', kategori)
