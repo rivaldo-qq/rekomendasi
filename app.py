@@ -139,6 +139,7 @@ def favorit():
     kategori = request.form.get("kategori")
     quantity = request.form.get("quantity", 1)
 
+    # validasi quantity
     try:
         quantity = int(quantity)
         if quantity < 1:
@@ -149,44 +150,42 @@ def favorit():
     if not menu_favorit or not kategori:
         return "Data tidak lengkap", 400
 
-    # --- Baca data CSV dari Supabase ---
-    df = load_csv_from_supabase()
-
-    last_id = int(df.iloc[-1]["id"]) if not df.empty else 0
-    last_invoice = int(df.iloc[-1]["invoice_id"]) if not df.empty else 0
+    # Baca data CSV untuk auto increment id dan invoice_id
+    with open('Penjualan warmindo.csv', newline='', encoding='utf-8') as f:
+        reader = list(csv.reader(f))
+        last_row = reader[-1] if len(reader) > 1 else None
+        last_id = int(last_row[0]) if last_row else 0
+        last_invoice = int(last_row[1]) if last_row else 0
 
     new_id = last_id + 1
     new_invoice = last_invoice + 1
     tanggal = datetime.now().strftime('%m/%d/%y')
     customer_id = 9999
 
-    # Cari harga_jual dari df produk (lu perlu punya df_produk terpisah)
-    filtered = df[df['nama_produk'].str.title() == menu_favorit.title()]
-    harga_jual = harga_row['harga_jual']
-    jenis_produk = harga_row['jenis_produk']
-    kategori_produk = harga_row.get('kategori_produk', kategori)
-    jenis_pembayaran = 'FAVORIT'
-    jenis_pesanan = 'Favorit'
-    nilai_penjualan = harga_jual * quantity
+    # Cari produk di dataframe
+    filtered = df[df['nama_produk'].str.lower() == menu_favorit.lower()] if 'nama_produk' in df.columns else None
 
-    if filtered.empty:
-        return f"Menu {menu_favorit} tidak ditemukan di database", 400
+    if filtered is None or filtered.empty:
+        return f"Menu '{menu_favorit}' tidak ditemukan di data produk", 400
+
+    # sekarang pasti ada baris
     harga_row = filtered.iloc[0]
+
+    # amanin akses kolom
     harga_jual = harga_row['harga_jual'] if 'harga_jual' in filtered.columns else 0
     jenis_produk = harga_row['jenis_produk'] if 'jenis_produk' in filtered.columns else 'unknown'
     kategori_produk = harga_row['kategori_produk'] if 'kategori_produk' in filtered.columns else kategori
 
-    # --- Tambah data baru ke DataFrame ---
-    new_row = pd.DataFrame([[
-        new_id, new_invoice, tanggal, customer_id,
-        menu_favorit, jenis_produk, kategori_produk,
-        quantity, harga_jual, jenis_pembayaran, jenis_pesanan, nilai_penjualan
-    ]], columns=df.columns)
+    jenis_pembayaran = 'FAVORIT'
+    jenis_pesanan = 'Favorit'
+    nilai_penjualan = harga_jual * quantity
 
-    df = pd.concat([df, new_row], ignore_index=True)
-
-    # --- Upload balik ke Supabase ---
-    save_csv_to_supabase(df)
+    # Tulis ke CSV
+    with open('Penjualan warmindo.csv', 'a', newline='', encoding='utf-8') as f:
+        writer = csv.writer(f)
+        writer.writerow([
+            new_id, new_invoice, tanggal, customer_id, menu_favorit, jenis_produk, kategori_produk, quantity, harga_jual, jenis_pembayaran, jenis_pesanan, nilai_penjualan
+        ])
 
     return "<script>alert('Terima kasih, menu favorit Anda sudah disimpan!');window.location='/'</script>"
 @app.route("/about")
