@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="id">
+    <head>
+        <meta charset="UTF-8">
+        <title>Rekomendasi Menu Warmindo</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <link rel="icon" href="{{ url_for('static', filename='assets/logo-warmindo.png') }}" type="image/png">
+    </head>
+<style>
+.hero-section {
+    /* background-image: url("{{ url_for('static', filename='assets/hero_indomie.jpg') }}"); */
+}
+</style>
+<body style="position: relative;">
+    <nav class="navbar">
+        <div class="logo">
+            <a href="/">
+                <img src="{{ url_for('static', filename='assets/logo-warmindo.png') }}" alt="Warmindo Logo">
+            </a>
+        </div>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/about" class="active">About</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="hero-content" style="position: relative; z-index: 1;">
+            <h1 style="color: #1A4D19; font-size: 2em; font-weight: bold; position: relative; z-index: 2;">Sistem Rekomendasi Menu Warmindo</h1>
+            <form method="POST" class="select-container" style="position: relative; z-index: 2;">
+                <label style="position: relative; z-index: 1;"><b>Pilih Kategori Mie Indomie</b></label>
+                <select name="kategori" required style="position: relative; z-index: 1;">
+                    <option value="">Pilih Kategori</option>
+                    {% for kategori in kategori_list %}
+                        <option value="{{ kategori }}" {% if kategori == kategori_terpilih %}selected{% endif %}>
+                            {{ kategori.replace('-', ' ').title() }}
+                        </option>
+                    {% endfor %}
+                </select>
+                <button type="submit" style="position: relative; z-index: 1;">Tampilkan Rekomendasi</button>
+            </form>
+        </div>
+        <div class="hero-collage">
+            <div class="collage-img collage-img5"><img src="{{ url_for('static', filename='assets/kocok-bandung.png') }}" alt="Kocok Bandung" /></div>
+            <div class="collage-img collage-img6"><img src="{{ url_for('static', filename='assets/soto-mie.png') }}" alt="Soto Mie" /></div>
+            <div class="collage-img collage-img0"><img src="{{ url_for('static', filename='assets/ayam-spesial.png') }}" alt="Ayam Spesial 2" /></div>
+            <div class="collage-img collage-img00"><img src="{{ url_for('static', filename='assets/baso-sapi.png') }}" alt="Baso Sapi 2" /></div>
+            <div class="collage-img collage-img1"><img src="{{ url_for('static', filename='assets/ayam-spesial.png') }}" alt="Ayam Spesial" /></div>
+            <div class="collage-img collage-img2"><img src="{{ url_for('static', filename='assets/baso-sapi.png') }}" alt="Baso Sapi" /></div>
+            <div class="collage-img collage-img3"><img src="{{ url_for('static', filename='assets/cabe-ijo.png') }}" alt="Cabe Ijo" /></div>
+            <div class="collage-img collage-img4"><img src="{{ url_for('static', filename='assets/goreng-aceh.png') }}" alt="Goreng Aceh" /></div>
+        </div>
+    </section>
+    <div class="container">
+        <!-- Bagian rekomendasi lama dihapus -->
+    </div>
+
+    <section class="recommendation-section" style="position: relative;">
+        <img src="{{ url_for('static', filename='assets/indomie_goreng-index.png') }}" alt="Mie Goreng Indomie" class="mie-goreng-bg">
+        <img src="{{ url_for('static', filename='assets/indomie_kuah-index.png') }}" alt="Mie Kuah Indomie" class="mie-kuah-bg">
+        <div class="recommendation-box" style="position: relative; z-index: 1;">
+            <h2>Rekomendasi untuk Mie{{ kategori_terpilih and ' ' + kategori_terpilih.replace('-', ' ').title() or ' ...' }}:</h2>
+            <ul class="recommendation-list-items">
+                {% if rekomendasi %}
+                    {% for item, persen in rekomendasi %}
+                        <li><span class="menu-nama">{{ item }}</span><span class="persen-kanan">{{ persen }}%</span></li>
+                    {% endfor %}
+                {% else %}
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                {% endif %}
+            </ul>
+        </div>
+    </section>
+<div class="checker-divider"></div>
+{% if rekomendasi %}
+<section class="favorite-section">
+    <div class="favorite-box">
+        <h3>Pilih Menu Favoritmu dari Rekomendasi di atas:</h3>
+        <form method="POST" action="/favorit">
+            {% for item, persen in rekomendasi %}
+                <div class="radio-fav">
+                    <input type="radio" id="fav{{ loop.index }}" name="menu_favorit" value="{{ item }}" required>
+                    <label for="fav{{ loop.index }}">{{ item }}</label>
+                </div>
+            {% endfor %}
+            <div class="input-qty-fav">
+                <label for="qty_fav">Jumlah Pesanan:</label>
+                <input type="number" id="qty_fav" name="quantity" min="1" value="1" required style="width:60px; margin-left:8px;">
+            </div>
+            <input type="hidden" name="kategori" value="{{ kategori_terpilih }}">
+            <button type="submit">Simpan Menu Favorit</button>
+        </form>
+    </div>
+</section>
+{% endif %}
+
+    <section class="about-section" id="about">
+        <h2>Temukan rahasia di balik rekomendasi menu kami.</h2>
+        <hr class="about-divider">
+        <a href="/about" class="about-link-button"><button type="button">Tentang Rekomendasi Ini</button></a>
+    </section>
+
+    <footer class="footer-section">
+        <div class="footer-content">
+            <p><b>Rekomendasi Menu Warmindo</b> &copy; 2025 &mdash; Temukan inspirasi menu favoritmu setiap hari!<br>
+            Dibuat dengan <span style="color:#e65100;">&#10084;</span> oleh Rizki Faizal Iriansyah</p>
+        </div>
+    </footer>
+</body>
+</html>

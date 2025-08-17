@@ -1,0 +1,576 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700,900&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Playfair+Display:400,700&display=swap');
+
+:root {
+    --red-warmindo: #F3686F;
+    --orange-warmindo: #FBA518;
+    --yellow-warmindo: #FEF772;
+    --sage-warmindo: #A89C29;
+    --dark-bg: #222;
+    --light-text: #9E060E;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    background-color: var(--sage-warmindo);
+    color: var(--dark-bg);
+}
+
+.navbar {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 15px 5%;
+    background-color: transparent;
+    position: absolute;
+    width: 90%;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+}
+
+.navbar .logo {
+    margin-right: 40px;
+    margin-left: 0;
+}
+
+.navbar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.navbar ul li {
+    margin-right: 50px;
+}
+
+.navbar .logo img {
+    height: 50px;
+}
+
+.navbar ul li a {
+    color: var(--light-text);
+    text-decoration: none;
+    font-weight: 400;
+    font-family: 'Playfair Display', serif;
+    font-weight: bold;
+    font-size: 15px;
+    transition: color 0.3s ease;
+}
+
+.navbar ul li a:hover {
+    color: var(--light-text);
+}
+
+.navbar ul li a.active {
+    color: #F3686F !important;
+}
+
+.hero-section {
+    position: relative;
+    height: 400px; /* Adjust as needed */
+    background-color: var(--yellow-warmindo);
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    color: var(--dark-bg);
+    text-align: left;
+    flex-direction: row;
+    overflow: hidden;
+}
+
+.hero-overlay {
+    display: none;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 500px;
+    padding: 20px 0 20px 0;
+    margin-left: 55px;
+    align-items: flex-start;
+    text-align: left;
+    flex: 1 1 0;
+}
+
+.hero-content h1 {
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 2em;
+    margin-bottom: 10px;
+    color: #16610E;
+    font-weight: 500;
+    line-height: 1.1;
+    white-space: nowrap;
+}
+
+.hero-content p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+.hero-content .select-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.hero-content select {
+    width: 100%;
+    max-width: 350px;
+    padding: 7px 12px;
+    border-radius: 6px;
+    border: 2px solid #e65100;
+    background-color: #fff;
+    color: #333;
+    font-size: 1.08em;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-weight: 500;
+    margin-bottom: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    transition: border-color 0.2s;
+}
+
+.hero-content select:focus {
+    border-color: #16610E;
+    outline: none;
+}
+
+.hero-content button {
+    padding: 10px 20px;
+    background-color: var(--orange-warmindo);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.hero-content button:hover {
+    background-color: #d6810b;
+}
+
+.hero-content label {
+    font-family: 'Roboto', Arial, sans-serif;
+    color: var(--red-warmindo);
+    font-weight: 700;
+}
+
+/* Placeholder for the recommendation section, will be refined later */
+.recommendation-section {
+    background-color: var(--yellow-warmindo);
+    padding: 40px 0;
+    text-align: center;
+    color: var(--dark-bg);
+    position: relative;
+    overflow: visible;
+}
+
+/* Pattern kotak-kotak di bawah */
+.recommendation-section::after {
+    content: none;
+}
+
+.recommendation-box::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    background-image: linear-gradient(45deg, var(--primary-orange) 25%, transparent 25%, transparent 75%, var(--primary-orange) 75%, var(--primary-orange)),
+                      linear-gradient(45deg, var(--primary-orange) 25%, transparent 25%, transparent 75%, var(--primary-orange) 75%, var(--primary-orange));
+    background-size: 20px 20px;
+    background-position: 0 0, 10px 10px;
+    z-index: 3;
+    pointer-events: none;
+}
+
+.recommendation-section h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: var(--dark-bg);
+}
+
+.recommendation-list-items {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+    color: var(--dark-bg);
+    min-height: 140px;
+}
+
+.recommendation-list-items li {
+    background-color: var(--yellow-warmindo);
+    margin-bottom: 10px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    text-align: left;
+    font-weight: bold;
+    color: var(--dark-bg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.persen-kanan {
+    color: var(--dark-bg);
+    font-weight: bold;
+    margin-left: 16px;
+    font-size: 1em;
+}
+
+/* Placeholder for the 'About' section */
+.about-section {
+    position: relative;
+    background-color: var(--yellow-warmindo);
+    background-image: url('/static/assets/mie-aboutsec.jpg');
+    background-size: cover;
+    background-position: center;
+    padding: 32px 5%;
+    text-align: center;
+    color: var(--dark-bg);
+}
+
+.about-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #FED16A;
+    opacity: 0.3;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.about-section > * {
+    position: relative;
+    z-index: 2;
+}
+
+.about-section h2 {
+    font-family: 'Playfair Display', serif;
+    font-weight: bold;
+    font-size: 40px;
+    color: #495E57;
+    margin-bottom: 20px;
+}
+
+.about-section button {
+    padding: 12px 25px;
+    background-color: var(--orange-warmindo);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.about-section button:hover {
+    background-color: #d6810b;
+}
+
+.recommendation-box {
+    background: #FFFFEC;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    padding: 24px 0 32px 0;
+    margin: 0 auto;
+    max-width: 800px;
+    width: 80%;
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+    min-height: 220px;
+    border-radius: 12px;
+    border: 2px solid var(--yellow-warmindo);
+}
+
+.recommendation-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 320px;
+    height: 220px;
+    background-image: url('/static/assets/pattern_mie.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0.25;
+    z-index: 3;
+    pointer-events: none;
+}
+
+.recommendation-box h2 {
+    text-align: left;
+    margin-left: 40px;
+    margin-bottom: 18px;
+    color: #495E57;
+}
+
+.recommendation-list-items {
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+/* Hapus pattern mie dari .recommendation-section::before agar tidak dobel */
+.recommendation-section::before {
+    content: none;
+}
+
+.about-divider {
+    border: none;
+    border-top: 5px solid #F97A00;
+    width: 320px;
+    margin: 24px auto;
+    border-radius: 3px;
+}
+
+.footer-section {
+    background: var(--sage-warmindo);
+    color: var(--dark-bg);
+    text-align: center;
+    padding: 24px 0 18px 0;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 1.05em;
+    margin-top: 0;
+}
+
+.footer-section a {
+    color: #fff3e0;
+    text-decoration: underline;
+    transition: color 0.2s;
+}
+
+.footer-section a:hover {
+    color: #fff;
+} 
+
+.favorite-section {
+    background-color: var(--yellow-warmindo);
+    padding: 32px 0;
+    text-align: center;
+    color: var(--dark-bg);
+}
+.favorite-box {
+    background: #FFFFEC;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    padding: 24px 0 32px 0;
+    margin: 0 auto;
+    max-width: 600px;
+    width: 95%;
+    border-radius: 8px;
+}
+.favorite-box h3 {
+    margin-bottom: 18px;
+    color: #495E57;
+}
+.radio-fav {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    margin-left: 40px;
+}
+.radio-fav input[type="radio"] {
+    accent-color: #e65100;
+    margin-right: 10px;
+}
+.favorite-box button {
+    margin-top: 18px;
+    padding: 10px 22px;
+    background-color: var(--orange-warmindo);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+.favorite-box button:hover {
+    background-color: #d6810b;
+} 
+
+.input-qty-fav {
+    display: flex;
+    align-items: center;
+    margin: 16px 0 0 40px;
+    font-size: 1.15em;
+    font-weight: bold;
+}
+
+.input-qty-fav label {
+    margin-right: 10px;
+    color: var(--orange-warmindo);
+}
+
+.input-qty-fav input[type="number"] {
+    padding: 6px 12px;
+    border: 2px solid var(--orange-warmindo);
+    border-radius: 6px;
+    font-size: 1em;
+    width: 70px;
+    background: #fffbe6;
+    color: var(--dark-bg);
+    font-weight: bold;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.input-qty-fav input[type="number"]:focus {
+    border-color: var(--red-warmindo);
+} 
+
+.hero-collage {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    display: grid;
+    grid-template-columns: 150px 150px 150px 150px;
+    grid-template-rows: 150px 150px;
+    gap: 2px 5px;
+    margin: 0;
+    width: 605px;
+    max-width: 100%;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    margin-right: 0;
+}
+.hero-collage > .collage-img:nth-child(odd) {
+    margin-left: 0;
+}
+.hero-collage > .collage-img:nth-child(even) {
+    margin-top: 0;
+}
+.collage-img {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    width: 140px;
+    height: 140px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.collage-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    display: block;
+}
+
+.collage-img:hover {
+    transform: scale(1.08) rotate(-3deg);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+}
+
+
+.mie-goreng-bg {
+    position: absolute;
+    z-index: 0;
+    top: -180px;
+    left: 15%;
+    transform: translateX(-50%);
+    width: 45vw;
+    max-width: 600px;
+    opacity: 0.95;
+    pointer-events: none;
+    filter: none;
+    transition: opacity 0.3s, width 0.3s, left 0.3s, top 0.3s;
+}
+@media (max-width: 900px) {
+    .mie-goreng-bg {
+        left: 0;
+        top: 20vw;
+        width: 95vw;
+        max-width: 98vw;
+    }
+}
+
+@media (max-width: 1200px) {
+  .hero-collage {
+    position: static;
+    margin-left: 40px;
+    margin-top: 24px;
+    right: auto;
+    top: auto;
+    transform: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .hero-section {
+    flex-direction: column;
+    height: auto;
+  }
+  .hero-collage {
+    margin: 24px auto 0 auto;
+    width: 100%;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 80px 80px;
+    gap: 10px;
+  }
+  .collage-img, .collage-img1, .collage-img2, .collage-img3, .collage-img4, .collage-img5, .collage-img6 {
+    width: 80%;
+    height: 50px;
+    min-width: 0;
+    min-height: 0;
+  }
+}
+
+.placeholder-img {
+    background: repeating-linear-gradient(135deg, #fffbe6, #fffbe6 10px, #f9e7a1 10px, #f9e7a1 20px);
+    color: #bdb76b;
+} 
+
+.checker-divider {
+    width: 100%;
+    height: 10px;
+    background-color: var(--orange-warmindo); 
+    box-shadow: 
+        0 0 5px var(--orange-warmindo), 
+        0 0 10px var(--orange-warmindo), 
+        0 0 15px var(--orange-warmindo), 
+        0 0 20px var(--orange-warmindo); 
+}
+
+@keyframes checkerMove {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 48px 0;
+    }
+} 
+
+.mie-kuah-bg {
+    position: absolute;
+    z-index: 0;
+    top: -120px; /* Sesuaikan dengan posisi yang diinginkan */
+    right: 0%; /* Ubah nilai ini untuk memindahkan lebih ke kanan */
+    width: 45vw; /* Sesuaikan ukuran */
+    max-width: 600px;
+    opacity: 0.95;
+    pointer-events: none;
+    filter: none;
+    transition: opacity 0.3s, width 0.3s, right 0.3s, top 0.3s;
+} 

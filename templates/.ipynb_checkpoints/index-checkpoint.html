@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Rekomendasi Menu Warmindo</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            color: #e65100;
+            margin-bottom: 30px;
+        }
+        .description {
+            background-color: #fff3e0;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #e65100;
+        }
+        .method-info {
+            background-color: #e8f5e9;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-size: 0.9em;
+            border-left: 4px solid #2e7d32;
+        }
+        select, button {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            width: 100%;
+            max-width: 400px;
+        }
+        button {
+            background-color: #e65100;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #f57c00;
+        }
+        .recommendation-list {
+            margin-top: 20px;
+        }
+        .menu-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 10px;
+        }
+        .filter-section {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .category-tag {
+            display: inline-block;
+            padding: 3px 8px;
+            background-color: #e65100;
+            color: white;
+            border-radius: 12px;
+            font-size: 0.8em;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🍜 Rekomendasi Menu Warmindo</h1>
+        </div>
+
+        <div class="description">
+            <h3>Mencari Variasi Menu Baru?</h3>
+            <p>Selamat datang di sistem rekomendasi menu cerdas Warmindo! Sistem ini dirancang untuk membantu Anda menemukan menu-menu yang mungkin Anda sukai berdasarkan preferensi pelanggan lainnya.</p>
+            <div class="method-info">
+                <p><strong>Bagaimana Sistem Ini Bekerja?</strong></p>
+                <p>Kami menggunakan metode Item-Based Collaborative Filtering yang menganalisis pola pembelian dari ribuan transaksi sebelumnya. Sistem akan menemukan kesamaan antara menu-menu berdasarkan bagaimana pelanggan memilih kombinasi menu mereka.</p>
+            </div>
+        </div>
+
+        <form method="POST" class="filter-section">
+            <label><b>Pilih Menu Favorit Anda:</b></label><br>
+            <select name="produk" required>
+                <option value="">-- Pilih Menu --</option>
+                {% for produk in daftar_produk %}
+                    <option value="{{ produk }}" {% if produk == produk_input %}selected{% endif %}>{{ produk }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <label><b>Filter berdasarkan kategori:</b></label><br>
+            <select name="kategori">
+                <option value="">Semua Kategori</option>
+                {% for kategori in kategori_list %}
+                    <option value="{{ kategori }}" {% if kategori == kategori_terpilih %}selected{% endif %}>
+                        {{ kategori.replace('-', ' ').title() }}
+                    </option>
+                {% endfor %}
+            </select>
+            <br>
+            <button type="submit">Temukan Rekomendasi 🔍</button>
+        </form>
+
+        {% if produk_input %}
+            <div class="recommendation-list">
+                <h3>✨ Rekomendasi untuk '{{ produk_input }}':</h3>
+                {% if rekomendasi %}
+                    {% for item in rekomendasi %}
+                        <div class="menu-item">
+                            <h4>{{ item }}</h4>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>Hmm... Sepertinya menu ini sangat unik! Belum ada rekomendasi serupa saat ini.</p>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

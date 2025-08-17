@@ -1,0 +1,244 @@
+html, body {
+    overflow-x: hidden;
+}
+
+body {
+    margin: 0;
+    font-family: 'Roboto', Arial, sans-serif;
+    background: #222;
+    color: #333;
+}
+
+.about-section {
+    padding-top: 90px;
+    padding-bottom: 60px;
+    min-height: 70vh;
+    background: #FFF7C0;
+}
+
+.about-header {
+    text-align: center;
+    color: #2e5a2a;
+    font-size: 2.5em;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-weight: bold;
+    margin-bottom: 32px;
+    background: #D1C99D;
+    padding: 24px 0;
+    border-radius: 18px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.about-block {
+    padding: 0 24px 16px 24px;
+    margin-bottom: 24px;
+}
+
+.about-block.orange .about-title {
+    color: #F97A00;
+}
+
+.about-block.green .about-title {
+    color: #8A9A5B;
+    text-align: right;
+}
+
+.about-title {
+    font-size: 1.2em;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-weight: bold;
+    margin-top: 0;
+    margin-bottom: 8px;
+}
+
+.about-desc {
+    color: #333;
+    font-size: 1.08em;
+    margin: 0;
+}
+
+.about-hero-header {
+    background: #FEF772;
+    width: 100%;
+    height: 300px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.about-hero-title-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.about-hero-title {
+    color: #2e5a2a;
+    font-size: 3em;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-weight: bold;
+    margin: 0;
+    background: none;
+    border-radius: 0;
+    text-align: center;
+    pointer-events: auto;
+}
+
+@media (max-width: 700px) {
+    .about-header {
+        font-size: 1.3em;
+        padding: 16px 0;
+    }
+    .about-block {
+        padding: 0 8px 10px 8px;
+    }
+    .about-hero-header {
+        height: 160px;
+    }
+    .about-hero-title {
+        font-size: 1.5em;
+    }
+}
+
+.about-cta-section {
+    background: #F97A00 !important;
+    width: 100vw;
+    min-width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    padding: 50px 0 40px 0;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.about-cta-content {
+    max-width: 1200px;
+    width: 100%;
+    padding: 0 50px;
+    box-sizing: border-box;
+}
+
+.about-cta-title {
+    color: #2e5a2a;
+    font-size: 1.5em;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-weight: bold;
+    margin-top: 0;
+    margin-bottom: 24px;
+}
+
+.about-cta-desc {
+    color: #fff;
+    font-size: 1.15em;
+    line-height: 1.5;
+    margin: 0;
+}
+
+@media (max-width: 700px) {
+    .about-cta-section {
+        padding: 24px 0 18px 0;
+    }
+    .about-cta-title {
+        font-size: 1.1em;
+    }
+    .about-cta-content {
+        max-width: 100%;
+        padding: 0 10px;
+    }
+}
+
+.about-how-section {
+    background: #8A9A5B;
+    width: 100vw;
+    min-width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    padding: 50px 0 40px 0;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.about-how-content {
+    max-width: 1200px;
+    width: 100%;
+    padding: 0 50px;
+    box-sizing: border-box;
+}
+
+.about-how-title {
+    color: #fff;
+    font-size: 1.5em;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-weight: bold;
+    margin-top: 0;
+    margin-bottom: 24px;
+}
+
+.about-how-desc {
+    color: #fff;
+    font-size: 1.15em;
+    line-height: 1.5;
+    margin: 0;
+}
+
+@media (max-width: 700px) {
+    .about-how-section {
+        padding: 24px 0 18px 0;
+    }
+    .about-how-title {
+        font-size: 1.1em;
+    }
+    .about-how-content {
+        max-width: 100%;
+        padding: 0 10px;
+    }
+}
+
+.about-export-section {
+    background: #F4E3B2; /* Warna latar belakang */
+    width: 100vw;
+    min-width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    padding: 50px 0 40px 0;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.about-export-content {
+    max-width: 1200px;
+    width: 100%;
+    padding: 0 50px;
+    box-sizing: border-box;
+}
+
+.about-export-title {
+    color: #2F4F4F; /* Warna teks */
+    font-size: 1.5em;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-weight: bold;
+    margin-top: 0;
+    margin-bottom: 24px;
+}
+
+.about-export-desc {
+    color: #5B4636; /* Warna teks */
+    font-size: 1.15em;
+    line-height: 1.5;
+    margin: 0;
+} 
