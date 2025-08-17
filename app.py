@@ -187,10 +187,14 @@ def favorit():
             new_id, new_invoice, tanggal, customer_id, menu_favorit, jenis_produk, kategori_produk, quantity, harga_jual, jenis_pembayaran, jenis_pesanan, nilai_penjualan
         ])
 
-    return "<script>alert('Terima kasih, menu favorit Anda sudah disimpan!');window.location='/'</script>"
+    return "<script>alert('Terima kasih, menu favorit Anda sudah disimpan');window.location='/'</script>"
 @app.route("/about")
 def about():
     return render_template("about.html")
+
+@app.route("/download-csv")
+def download_csv():
+    return send_file("Penjualan warmindo.csv", as_attachment=True)
 
 # Run App
 if __name__ == "__main__":
