@@ -161,13 +161,17 @@ def favorit():
     customer_id = 9999
 
     # Cari harga_jual dari df produk (lu perlu punya df_produk terpisah)
-    harga_row = df[df['nama_produk'] == menu_favorit].iloc[0]
+    filtered = df_produk[df_produk['nama_produk'] == menu_favorit]
     harga_jual = harga_row['harga_jual']
     jenis_produk = harga_row['jenis_produk']
     kategori_produk = harga_row.get('kategori_produk', kategori)
     jenis_pembayaran = 'FAVORIT'
     jenis_pesanan = 'Favorit'
     nilai_penjualan = harga_jual * quantity
+
+    if filtered.empty:
+        return f"Menu {menu_favorit} tidak ditemukan di database", 400
+    harga_row = filtered.iloc[0]
 
     # --- Tambah data baru ke DataFrame ---
     new_row = pd.DataFrame([[
