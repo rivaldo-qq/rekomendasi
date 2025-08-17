@@ -4,10 +4,19 @@ import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 from scipy.sparse import csr_matrix
 import csv
+from supabase import create_client
 from datetime import datetime
 
 # Setup Flask
 app = Flask(__name__)
+
+# --- Konfigurasi Supabase ---
+url = "https://lqskpaecrquwwsezlwcb.supabase.co"
+key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxxc2twYWVjcnF1d3dzZXpsd2NiIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1Mjg3MzYwNCwiZXhwIjoyMDY4NDQ5NjA0fQ.b7iOyA5lRdV-Q11PuPDrTnsW9ho45kk1D9TzK_aAqEU"  # pakai service role key
+supabase = create_client(url, key)
+
+bucket = "rekomendasi"
+file_name = "Penjualan_warmindo.csv"
 
 # Load Dataset
 df = pd.read_csv('Penjualan warmindo.csv')
@@ -28,6 +37,29 @@ item_sim = cosine_similarity(sparse_matrix.T)
 item_sim_df = pd.DataFrame(item_sim, 
                          index=user_item_matrix.columns, 
                          columns=user_item_matrix.columns)
+
+def load_csv_from_supabase():
+    """Download CSV dari Supabase bucket"""
+    try:
+        res = supabase.storage.from_(bucket).download(file_name)
+        return pd.read_csv(io.BytesIO(res))
+    except Exception as e:
+        print("Error load csv:", e)
+        return pd.DataFrame(columns=[
+            "id", "invoice_id", "tanggal", "customer_id",
+            "menu", "jenis_produk", "kategori_produk",
+            "quantity", "harga_jual", "jenis_pembayaran",
+            "jenis_pesanan", "nilai_penjualan"
+        ])
+
+def save_csv_to_supabase(df):
+    """Upload CSV balik ke Supabase"""
+    csv_bytes = df.to_csv(index=False).encode()
+    supabase.storage.from_(bucket).upload(
+        file_name,
+        csv_bytes,
+        {"upsert": True}
+    )
 
 # Fungsi Rekomendasi dengan Filter Kategori
 def rekomendasi_produk(nama_produk, kategori=None, top_n=6):
@@ -106,43 +138,50 @@ def favorit():
     menu_favorit = request.form.get("menu_favorit")
     kategori = request.form.get("kategori")
     quantity = request.form.get("quantity", 1)
+
     try:
         quantity = int(quantity)
         if quantity < 1:
             quantity = 1
     except:
         quantity = 1
+
     if not menu_favorit or not kategori:
         return "Data tidak lengkap", 400
 
-    # Baca data CSV untuk auto increment id dan invoice_id
-    with open('Penjualan warmindo.csv', newline='', encoding='utf-8') as f:
-        reader = list(csv.reader(f))
-        last_row = reader[-1] if len(reader) > 1 else None
-        last_id = int(last_row[0]) if last_row else 0
-        last_invoice = int(last_row[1]) if last_row else 0
+    # --- Baca data CSV dari Supabase ---
+    df = load_csv_from_supabase()
+
+    last_id = int(df.iloc[-1]["id"]) if not df.empty else 0
+    last_invoice = int(df.iloc[-1]["invoice_id"]) if not df.empty else 0
 
     new_id = last_id + 1
     new_invoice = last_invoice + 1
     tanggal = datetime.now().strftime('%m/%d/%y')
-    customer_id = 9999  # Bisa diganti dengan sistem login/user id jika ada
-    # Cari harga_jual dari data df
-    harga_row = df[df['nama_produk'] == menu_favorit].iloc[0]
+    customer_id = 9999
+
+    # Cari harga_jual dari df produk (lu perlu punya df_produk terpisah)
+    harga_row = df_produk[df_produk['nama_produk'] == menu_favorit].iloc[0]
     harga_jual = harga_row['harga_jual']
     jenis_produk = harga_row['jenis_produk']
-    kategori_produk = harga_row['kategori_produk'] if 'kategori_produk' in harga_row else 'makanan'
+    kategori_produk = harga_row.get('kategori_produk', kategori)
     jenis_pembayaran = 'FAVORIT'
     jenis_pesanan = 'Favorit'
     nilai_penjualan = harga_jual * quantity
 
-    # Tulis ke CSV
-    with open('Penjualan warmindo.csv', 'a', newline='', encoding='utf-8') as f:
-        writer = csv.writer(f)
-        writer.writerow([
-            new_id, new_invoice, tanggal, customer_id, menu_favorit, jenis_produk, kategori_produk, quantity, harga_jual, jenis_pembayaran, jenis_pesanan, nilai_penjualan
-        ])
-    return "<script>alert('Terima kasih, menu favorit Anda sudah disimpan!');window.location='/'</script>"
+    # --- Tambah data baru ke DataFrame ---
+    new_row = pd.DataFrame([[
+        new_id, new_invoice, tanggal, customer_id,
+        menu_favorit, jenis_produk, kategori_produk,
+        quantity, harga_jual, jenis_pembayaran, jenis_pesanan, nilai_penjualan
+    ]], columns=df.columns)
 
+    df = pd.concat([df, new_row], ignore_index=True)
+
+    # --- Upload balik ke Supabase ---
+    save_csv_to_supabase(df)
+
+    return "<script>alert('Terima kasih, menu favorit Anda sudah disimpan!');window.location='/'</script>"
 @app.route("/about")
 def about():
     return render_template("about.html")
