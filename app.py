@@ -49,7 +49,7 @@ def load_csv_from_supabase():
             "id", "invoice_id", "tanggal", "customer_id",
             "menu", "jenis_produk", "kategori_produk",
             "quantity", "harga_jual", "jenis_pembayaran",
-            "jenis_pesanan", "nilai_penjualan"
+            "jenis_pesanan", "nilai_penjualan", "nama_produk"
         ])
 
 def save_csv_to_supabase(df):
